@@ -2,6 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import { SearchFilter } from "./SearchFilter"
 
+const transitionTime = 0.5;
 
 const TextPart = styled.div`
     display: flex;
@@ -13,6 +14,9 @@ const TextPart = styled.div`
     white-space: nowrap;
     padding-right: 20px;
     font-size: 1.6rem;
+    transition: width   ${transitionTime}s ease-in-out, 
+                opacity ${transitionTime}s ease-in-out, 
+                padding ${transitionTime}s ease-in-out;
     ${({theme: {breakpoints}}) =>`
         @media ${breakpoints.xs} { padding-left: 40px;}
         @media ${breakpoints.tabletS} {  padding-left: 85px;}
@@ -41,11 +45,21 @@ const HeaderBar = styled.div`
         ${({theme: {breakpoints}}) =>`
             @media ${breakpoints.xs} { 
                 justify-content: center;
-                ${TextPart}   { display: none; }
+                ${TextPart}   { 
+                    width: 0;
+                    opacity: 0;
+                    padding-left: 0;
+                    padding-right: 0;
+                }
             }
             @media ${breakpoints.tabletS} {  
                 justify-content: space-between; 
-                ${TextPart}   { display: flex; }
+                ${TextPart}   { 
+                    width: initial;
+                    opacity: 1;
+                    padding-left: 85px;
+                    padding-right: 20px;
+                }
             }
         `}
     }

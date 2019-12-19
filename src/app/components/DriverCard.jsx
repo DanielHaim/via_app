@@ -53,12 +53,16 @@ const HoverDisplay = styled.div`
     display: flex;
     height: 0;
     visibility: hidden;
-    transition: opacity 0ms, visibility 0ms;
     opacity: 0;
     color: darkgrey;
     font-size: ${({ratio}) => 11 * ratio}px;
+    transition: opacity ${transitionTime}s, 
+                visibility ${transitionTime}s, 
+                height ${transitionTime}s ease-in-out;
     ${Wrapper}:hover &{
-        transition: opacity ${transitionTime}s ease-in-out, visibility ${transitionTime}s ease-in-out, height ${transitionTime}s ease-in-out;
+        transition: opacity    ${transitionTime}s ease-in-out, 
+                    visibility ${transitionTime}s ease-in-out, 
+                    height     ${transitionTime}s ease-in-out;
         visibility: visible;
         height: ${({ratio}) => 17.5 * ratio}px;
         opacity: 1;
@@ -71,11 +75,11 @@ const RankWrapper = styled.div`
     padding-bottom: ${({ratio}) => 2 * ratio}px;
 `
 
-const rankStyle = {
-    fontSize: 8,
-    fontWeight:'bold',
-    paddingLeft: 2,
-}
+const RankDescr = styled.div`
+    font-size: ${({ratio}) => 8 * ratio}px;
+    font-weight: bold;
+    padding-left: ${({ratio}) => 2 * ratio}px;
+`
 
 const FullName = styled.div`
     color: darkgray;
@@ -114,7 +118,7 @@ const DriverRank = ({rankNum, ratio}) => {
                 starDimension={`${13*ratio}px`}
                 starSpacing={`${1*ratio}px`}
             />
-            <div style={rankStyle}>{`(${rankNum})`}</div>
+            <RankDescr ratio={ratio}>{`(${rankNum})`}</RankDescr>
         </RankWrapper>
     )
 } 

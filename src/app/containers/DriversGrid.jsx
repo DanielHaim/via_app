@@ -20,18 +20,23 @@ const ContainerGrid = styled.div`
     margin-left: -${gutter}px;
     margin-bottom: -${gutter}px;
     ${({widthCard}) => `
+        // when the screen is smaller than the width of 1 card
         @media (min-width: 0px){
             width: ${widthCard}px;
         }
+        // when the screen is greater than the width of 1 card
         @media (min-width: ${widthCard + marginGrid}px){
             width: ${widthCard}px;
         }
+        // when the screen is greater than the width of 2 cards
         @media (min-width: ${widthCard * 2 + marginGrid}px){
             width: ${widthCard * 2}px;
         }
+        // when the screen is greater than the width of 3 cards
         @media (min-width: ${widthCard * 3 + 2 * marginGrid}px){
             width: ${widthCard * 3}px;
         }
+        // when the screen is greater than the width of 4 cards
         @media (min-width: ${widthCard * 4 + 2 * marginGrid}px){
             width: ${widthCard * 4}px;
         }
@@ -45,22 +50,27 @@ const Cell = styled.div`
 `
 
 export const DriversGrid = () => {
-    const singleCard = useRef();
-    const width = useWindowWidth();
+    const ratioBreakPoint = useRef();
+    const screenWidth = useWindowWidth();
     const driversByName = useSelector(driversByNameSelector);
     const [ratio, setRatio]  = useState(1);
     const [widthCard, setWidthCard] = useState();
 
     // first rendering
     useEffect(() => { 
-        singleCard.current = (getWidthCard(1) * 2) + 2 * marginGrid; 
+        // change the ratio of the card if the screen is smaller than the width of 2 cards + the margins (right/left)
+        ratioBreakPoint.current = {
+            'width2Cards': (getWidthCard(1) * 2) + 2 * marginGrid,
+            'width3Cards':  (getWidthCard(1) * 3) + 2 * marginGrid
+        } 
     }, []);
 
     // update ratio card
     useEffect(() => {
-        if(width < singleCard.current && ratio === 1){ setRatio(1.5); }
-        else if(width >= singleCard.current && ratio !== 1){ setRatio(1); }
-    }, [width]);
+        if(screenWidth < ratioBreakPoint.current.width3Cards){ setRatio(1.2); }
+        if(screenWidth < ratioBreakPoint.current.width2Cards){ setRatio(1.5); }
+        else if(screenWidth >= ratioBreakPoint.current.width3Cards){ setRatio(1); }
+    }, [screenWidth]);
 
     //update widthCard 
     useEffect(() => {

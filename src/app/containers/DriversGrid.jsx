@@ -1,9 +1,9 @@
-import React, {useEffect, useRef, useState} from "react"
+import React, {useEffect, useState} from "react"
 import styled from "styled-components"
 import { useSelector } from 'react-redux'
 import { driversByName as driversByNameSelector } from "../store/selectors"
 import { DriverCard } from "../components"
-import { useWindowWidth } from "../hooks"
+import { useBreakPoint } from "../hooks"
 
 const gutter = 10;
 const driverCardWith = 150;
@@ -49,34 +49,28 @@ const Cell = styled.div`
     margin-left: ${gutter}px;
 `
 
-export const DriversGrid = () => {
-    const ratioBreakPoint = useRef();
-    const screenWidth = useWindowWidth();
+export const DriversGrid = () => {    
+    const breakTo1Card = (getWidthCard(1) * 2) + 2 * marginGrid;
+    const breakTo2Card = (getWidthCard(1) * 3) + 2 * marginGrid;
+    
+    const gotBreakTo1 = useBreakPoint(breakTo1Card);
+    const gotBreakTo2 = useBreakPoint(breakTo2Card);
     const driversByName = useSelector(driversByNameSelector);
     const [ratio, setRatio]  = useState(1);
     const [widthCard, setWidthCard] = useState();
-
-    // first rendering
-    useEffect(() => { 
-        // change the ratio of the card if the screen is smaller than the width of 2 cards + the margins (right/left)
-        ratioBreakPoint.current = {
-            'width2Cards': (getWidthCard(1) * 2) + 2 * marginGrid,
-            'width3Cards':  (getWidthCard(1) * 3) + 2 * marginGrid
-        } 
-    }, []);
-
-    // update ratio card
+    
+    // update ratio card for breakpoints
     useEffect(() => {
-        if(screenWidth < ratioBreakPoint.current.width3Cards){ setRatio(1.2); }
-        if(screenWidth < ratioBreakPoint.current.width2Cards){ setRatio(1.5); }
-        else if(screenWidth >= ratioBreakPoint.current.width3Cards){ setRatio(1); }
-    }, [screenWidth]);
-
+        if(gotBreakTo1){ ratio !== 1.5 && setRatio(1.5); }
+        else if(gotBreakTo2){ ratio !== 1.2 && setRatio(1.2); }
+        else{ ratio !== 1 && setRatio(1); }
+    }, [gotBreakTo1, gotBreakTo2]);
+    
     //update widthCard 
     useEffect(() => {
         setWidthCard(getWidthCard(ratio));
     }, [ratio]);
-
+    
     return (
         <ContainerGrid widthCard={widthCard}>
             {

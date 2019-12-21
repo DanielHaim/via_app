@@ -56,13 +56,10 @@ const HoverDisplay = styled.div`
     opacity: 0;
     color: darkgrey;
     font-size: ${({ratio}) => 11 * ratio}px;
-    transition: opacity ${transitionTime}s, 
-                visibility ${transitionTime}s, 
+    transition: opacity ${transitionTime}s ease-in-out, 
+                visibility ${transitionTime}s ease-in-out, 
                 height ${transitionTime}s ease-in-out;
     ${Wrapper}:hover &{
-        transition: opacity    ${transitionTime}s ease-in-out, 
-                    visibility ${transitionTime}s ease-in-out, 
-                    height     ${transitionTime}s ease-in-out;
         visibility: visible;
         height: ${({ratio}) => 17.5 * ratio}px;
         opacity: 1;

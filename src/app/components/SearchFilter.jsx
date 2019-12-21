@@ -22,15 +22,6 @@ const StyledSearchInput = styled.input`
     width: 100%;
     color: grey;
     &:focus{ border-color: aqua; }
-    ${({theme: {breakpoints}}) =>`
-        @media ${breakpoints.xs}      { 
-            max-width: 20px; 
-            :focus { max-width: 400px; }
-        }
-        @media ${breakpoints.tabletS} { 
-            max-width: 400px; 
-        }
-    `}
 `;
 
 export const SearchFilter = () => {

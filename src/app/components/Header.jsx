@@ -14,12 +14,13 @@ const TextPart = styled.div`
     white-space: nowrap;
     padding-right: 20px;
     font-size: 1.6rem;
-    transition: width   ${transitionTime}s ease-in-out, 
-                opacity ${transitionTime}s ease-in-out, 
-                padding ${transitionTime}s ease-in-out;
+    max-width: 100%;
+    transition: max-width  ${transitionTime}s ease-in-out, 
+                opacity    ${transitionTime}s ease-in-out, 
+                padding    ${transitionTime}s ease-in-out;
     ${({theme: {breakpoints}}) =>`
         @media ${breakpoints.xs} { padding-left: 40px;}
-        @media ${breakpoints.tabletS} {  padding-left: 85px;}
+        @media ${breakpoints.tabletS} { padding-left: 85px;}
     `}
 ` 
 
@@ -27,9 +28,14 @@ const SearchPart = styled.div`
     display: flex;
     align-items: center;
     padding: 0 35px;
-    max-width: 400px;
     width: 100%;
     justify-content: flex-end;
+    > input {
+        ${({theme: {breakpoints}}) =>`
+            @media ${breakpoints.xs} { max-width: 20px; &:focus{ max-width: 100%; } } 
+            @media ${breakpoints.tabletS} { max-width: 400px; &:focus{ max-width: 400px; } }
+        `}
+    }
 `
 
 const HeaderBar = styled.div`
@@ -46,7 +52,7 @@ const HeaderBar = styled.div`
             @media ${breakpoints.xs} { 
                 justify-content: center;
                 ${TextPart}   { 
-                    width: 0;
+                    max-width: 0;
                     opacity: 0;
                     padding-left: 0;
                     padding-right: 0;
@@ -55,7 +61,7 @@ const HeaderBar = styled.div`
             @media ${breakpoints.tabletS} {  
                 justify-content: space-between; 
                 ${TextPart}   { 
-                    width: initial;
+                    max-width: 100%;
                     opacity: 1;
                     padding-left: 85px;
                     padding-right: 20px;
